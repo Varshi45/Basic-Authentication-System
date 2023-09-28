@@ -1,0 +1,75 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f0f0f0;
+    font-size: 150%;
+    background: radial-gradient(#22c381,#ffdf00);
+    height: 100vh;
+    margin: 0;
+}
+.container {
+    text-align: center;
+    margin-top: 100px;
+}
+.container h2{
+    margin: 5% auto;
+    text-align: center;
+}
+.container input{
+    border-radius: 5px;
+    width: 90%;
+    margin: 2% 5%;
+    height: 50%;
+}
+.form-container {
+    display: inline-block;
+    width: 35%;
+    text-align: left;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    opacity: 0;
+    transform: translateX(20px);
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+.form-container.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.myButton {
+    margin: 2% 40%;
+    box-shadow: 3px 4px 0px 0px #899599;
+	background:linear-gradient(to bottom, #ededed 5%, #bab1ba 100%);
+	background-color:#ededed;
+	border-radius:15px;
+	border:1px solid #d6bcd6;
+	display:inline-block;
+	cursor:pointer;
+	color:#0d5263;
+	font-family:Arial;
+	font-size:17px;
+	padding:7px 25px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #e1e2ed;
+}
+.myButton:hover {
+	background:linear-gradient(to bottom, #bab1ba 5%, #ededed 100%);
+	background-color:#bab1ba;
+}
+.myButton:active {
+	position:relative;
+	top:1px;
+}
+a{
+    text-decoration: none;
+}
+
+.hidden {
+    display: none;
+}

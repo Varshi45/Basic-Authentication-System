@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NewsTree</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .card {
+            border: 1px solid #ccc;
+            margin: 3%;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        h1,h2{
+            margin: 2% 3%;
+        }
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f0f0f0;
+            font-size: 150%;
+            background: radial-gradient(#22c381,#ffdf00);
+            height: 100vh;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1>Welcome to the NewsTree</h1>
+                </div>
+                <div class="col-lg-6 d-flex justify-content-end">
+                    <!-- Logout Button -->
+                    <button class="btn btn-danger" id="logout-button">Logout</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- Search Input -->
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="search-input" placeholder="Search for news...">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" id="search-button">Search</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <h2>Latest News :-</h2>
+    <!-- News Container -->
+    <div class="container">
+        <div class="row" id="news-container">
+            <!-- News articles will be displayed here -->
+        </div>
+    </div>  
+
+    <script>
+        // JavaScript to fetch and display news articles
+        async function fetchNews(query = '') {
+            try {
+                const apiKey = '41d293262e9b41298cc207a52dc24377'; // Replace with your NewsAPI API key
+                let apiUrl = '';
+                
+                if (query.trim() === '') {
+                    // Fetch top headlines by default
+                    apiUrl = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}`;
+                } else {
+                    // Fetch news based on the user's query
+                    apiUrl = `https://newsapi.org/v2/everything?q=${encodeURIComponent(query)}&apiKey=${apiKey}`;
+                }
+
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+
+                const newsContainer = document.getElementById('news-container');
+                newsContainer.innerHTML = ''; // Clear any previous content
+
+                if (data.status === 'ok') {
+                    data.articles.forEach(article => {
+                        const card = document.createElement('div');
+                        card.classList.add('col-lg-3', 'card'); // Bootstrap classes for grid
+
+                        const image = document.createElement('img');
+                        image.src = article.urlToImage || 'placeholder-image.jpg'; // Use a placeholder image if no image is available
+
+                        const title = document.createElement('h3');
+                        title.textContent = article.title;
+
+                        const link = document.createElement('a');
+                        link.href = article.url;
+                        link.textContent = 'Read More';
+
+                        card.appendChild(image);
+                        card.appendChild(title);
+                        card.appendChild(link);
+
+                        newsContainer.appendChild(card);
+                    });
+                } else {
+                    newsContainer.textContent = 'Failed to fetch news.';
+                }
+            } catch (error) {
+                console.error('Error fetching news:', error);
+            }
+        }
+
+        // Search Button Click Event
+        document.getElementById('search-button').addEventListener('click', () => {
+            const searchInput = document.getElementById('search-input');
+            const searchTerm = searchInput.value.trim();
+            fetchNews(searchTerm);
+        });
+
+        // Logout Button Click Event
+        document.getElementById('logout-button').addEventListener('click', () => {
+        // Clear session data on the server
+        fetch('/logout', { method: 'POST' })
+            .then(response => {
+                if (response.status === 200) {
+                    // Redirect the user to the login page
+                    sessionStorage.clear();
+                    window.location.href = 'main.html';
+                } else {
+                    console.error('Failed to log out:', response.statusText);
+                }
+            })
+            .catch(error => {
+                console.error('Error logging out:', error);
+            });
+        });
+        fetchNews();
+    </script>
+</body>
+</html>

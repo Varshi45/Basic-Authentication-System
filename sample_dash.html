@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Add your custom CSS styles here */
+        .card {
+            border: 1px solid #ccc;
+            margin: 10px;
+            padding: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .card img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to the Dashboard</h1>
+    <h2>Latest News</h2>
+
+    <!-- Search Input -->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <input type="text" class="form-control" id="search-input" placeholder="Search for news...">
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-primary" id="search-button">Search</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- News Container -->
+    <div class="container">
+        <div class="row" id="news-container">
+            <!-- News articles will be displayed here -->
+        </div>
+    </div>
+
+    <script>
+        // JavaScript to fetch and display news articles
+        async function fetchNews(query = '') {
+            try {
+                const apiKey = '41d293262e9b41298cc207a52dc24377'; // Replace with your NewsAPI API key
+                let apiUrl = '';
+                
+                if (query.trim() === '') {
+                    // Fetch top headlines by default
+                    apiUrl = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}`;
+                } else {
+                    // Fetch news based on the user's query
+                    apiUrl = `https://newsapi.org/v2/everything?q=${encodeURIComponent(query)}&apiKey=${apiKey}`;
+                }
+
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+
+                const newsContainer = document.getElementById('news-container');
+                newsContainer.innerHTML = ''; // Clear any previous content
+
+                if (data.status === 'ok') {
+                    data.articles.forEach(article => {
+                        const card = document.createElement('div');
+                        card.classList.add('col-lg-4', 'card'); // Bootstrap classes for grid
+
+                        const image = document.createElement('img');
+                        image.src = article.urlToImage || 'placeholder-image.jpg'; // Use a placeholder image if no image is available
+
+                        const title = document.createElement('h3');
+                        title.textContent = article.title;
+
+                        card.appendChild(image);
+                        card.appendChild(title);
+
+                        newsContainer.appendChild(card);
+                    });
+                } else {
+                    newsContainer.textContent = 'Failed to fetch news.';
+                }
+            } catch (error) {
+                console.error('Error fetching news:', error);
+            }
+        }
+
+        // Search Button Click Event
+        document.getElementById('search-button').addEventListener('click', () => {
+            const searchInput = document.getElementById('search-input');
+            const searchTerm = searchInput.value.trim();
+            fetchNews(searchTerm);
+        });
+
+        // Fetch news articles when the page loads initially
+        fetchNews();
+    </script>
+</body>
+</html>

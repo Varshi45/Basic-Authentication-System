@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NewsTree</title>
+    <style>
+        *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f0f0f0;
+    font-size: 150%;
+    background: radial-gradient(#22c381,#ffdf00);
+    height: 100vh;
+    margin: 0;
+}
+.container {
+    text-align: center;
+    margin-top: 100px;
+}
+.container h2{
+    margin: 5% auto;
+    text-align: center;
+}
+.container input{
+    border-radius: 5px;
+    width: 90%;
+    margin: 2% 5%;
+    height: 50%;
+}
+.form-container {
+    display: inline-block;
+    width: 35%;
+    text-align: left;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    opacity: 0;
+    transform: translateX(20px);
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+.form-container.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.myButton {
+    margin: 2% 40%;
+    box-shadow: 3px 4px 0px 0px #899599;
+	background:linear-gradient(to bottom, #ededed 5%, #bab1ba 100%);
+	background-color:#ededed;
+	border-radius:15px;
+	border:1px solid #d6bcd6;
+	display:inline-block;
+	cursor:pointer;
+	color:#0d5263;
+	font-family:Arial;
+	font-size:17px;
+	padding:7px 25px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #e1e2ed;
+}
+.myButton:hover {
+	background:linear-gradient(to bottom, #bab1ba 5%, #ededed 100%);
+	background-color:#bab1ba;
+}
+.myButton:active {
+	position:relative;
+	top:1px;
+}
+a{
+    text-decoration: none;
+}
+h1{
+    text-align: center;
+    margin: 2% auto;
+    color: whitesmoke;
+}
+h1:hover{
+    color:#899599;
+    cursor: default;
+}
+
+    </style>
+</head>
+<body>
+    <h1>NewsTree</h1>
+    <div class="container">
+        <div id="login-form" class="form-container active">
+            <h2>Login</h2>
+            <form id="login" action="/login" method="post">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" placeholder="User-Name" required>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="Password" required>
+                <button class="myButton" type="submit">Login</button>
+            </form>
+            <p>Don't have an account? <a href="#" id="signup-link">Sign up</a></p>
+        </div>
+
+        <div id="signup-form" class="form-container">
+            <h2>Sign Up</h2>
+            <form id="signup" action="/signup" method="post">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" placeholder="User-Name" required>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="Password" required>
+                <button class="myButton" type="submit">Signup</button>
+            </form>
+            <p>Already have an account? <a href="#" id="login-link">Login</a></p>
+        </div>
+    </div>
+
+    <script>
+        const loginForm = document.getElementById("login-form");
+        const signupForm = document.getElementById("signup-form");
+        const loginLink = document.getElementById("login-link");
+        const signupLink = document.getElementById("signup-link");
+
+        loginLink.addEventListener("click", () => {
+            loginForm.classList.add("active");
+            signupForm.classList.remove("active");
+        });
+        signupLink.addEventListener("click", () => {
+            loginForm.classList.remove("active");
+            signupForm.classList.add("active");
+        });
+    </script>
+</body>
+</html>
