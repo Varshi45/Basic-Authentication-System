@@ -28,7 +28,7 @@ Before running this application, make sure you have the following:
 2. Navigate to the project directory:
 
    ```bash
-   cd Login-Signup-App
+   cd Basic-Authentication-System
    ```
 
 3. Install dependencies:
@@ -63,7 +63,7 @@ This will start the Express server on port 3000 by default.
 ## Folder Structure
 
 ```
-Login-Signup-App/
+Basic-Authentication-System/
 ├── firebase-key.json
 ├── dashboard.html
 ├── main.html
