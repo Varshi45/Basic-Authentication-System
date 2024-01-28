@@ -1,4 +1,3 @@
-```markdown
 # Login-Signup App with Firebase and Express
 
 This is a simple login/signup application built using Express.js, Firebase, and bcrypt for password hashing. It allows users to sign up, log in, and log out securely.
